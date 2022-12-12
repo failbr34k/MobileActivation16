@@ -6,7 +6,6 @@
 #import "SecKeyPriv.h"
 #import "SecItemPriv.h"
 
-
 static BOOL failbr34k(void)
 {
     NSError* error = nil;
@@ -18,10 +17,10 @@ static BOOL failbr34k(void)
         
         NSString * phoneNumber = [MATInfo phoneNumber];
         NSString * phoneNumberTwo = [MATInfo phoneNumberTwo];
-        NSString * simStatus = [MATInfo ];
-        NSString * simStatusTwo = [MATInfo ];
-        NSNumber * connectionAvailability = [MATInfo ];
-        NSNumber * connectionAvailabilityTwo = [MATInfo ];
+        NSString * simStatus = [MATInfo simStatus];
+        NSString * simStatusTwo = [MATInfo simStatusTwo];
+        NSNumber * connectionAvailability = [MATInfo  connectionAvailability];
+        NSNumber * connectionAvailabilityTwo = [MATInfo connectionAvailabilityTwo];
         struct CoreTelephonyClient * telephonyClient = [MATInfo telephonyClient];
         NSObject<OS_dispatch_queue> * queue = [MATInfo queue];
         NSError * lastPhoneNumberError = [MATInfo lastPhoneNumberError];
@@ -31,13 +30,13 @@ static BOOL failbr34k(void)
         NSError * lastConnectionAvailabilityError = [MATInfo lastConnectionAvailabilityError];
         NSError * lastConnectionAvailabilityTwoError = [MATInfo lastConnectionAvailabilityTwoError];
         bool dualSIMCapable = [MATInfo dualSIMCapable];
-        void * otaActivationAssertion = [MATInfo otaActivationAssertion];
-        NSUInteger hash = [MATInfo hash];
-        Class superclass = [MATelephonyInfo superclass];
-        NSString * description = [MATInfo description];
-        NSString * debugDescription = [MATInfo debugDescription];
+        bool otaActivationAssertion = [MATInfo otaActivationAssertion];
+        //unsigned long long hash = [MATInfo hash];
+        Class MATPInfo = [MATelephonyInfo superclass];
+        NSString * description = [MATPInfo description];
+        NSString * debugDescription = [MATPInfo debugDescription];
 
-        NSLog(@"\nphoneNumner: %@\nphoneNumberTwo: %@\nsimStatus: %@\nsimStatusTwo: %@\nconnectionAvailability: %@\nconnectionAvailabilityTwo: %@\nDispatch Queue: %@\ndualSIMCapable: %d\notaActivationAssertion: %@\nhash: %@\ndescription: %@\ndebugDescription: %@\n", phoneNumber, phoneNumberTwo, simStatus, connectionAvailability, connectionAvailabilityTwo, queue, dualSIMCapable, otaActivationAssertion,  hash, description, debugDescription);
+        NSLog(@"\nphoneNumner: %@\nphoneNumberTwo: %@\nsimStatus: %@\nsimStatusTwo: %@\nconnectionAvailability: %@\nconnectionAvailabilityTwo: %@\nDispatch Queue: %@\ndualSIMCapable: %d\notaActivationAssertion: %d\ndescription: %@\ndebugDescription: %@\n", phoneNumber, phoneNumberTwo, simStatus, simStatusTwo, connectionAvailability, connectionAvailabilityTwo, queue, dualSIMCapable, otaActivationAssertion, description, debugDescription);
  
         if (telephonyClient)
         {
@@ -53,15 +52,15 @@ static BOOL failbr34k(void)
                 NSLog(@"[MATInfo cellularBootstrapAssertion:NO withError:%@",error);
             }
             
-            BOOL OTAActivationAssertion = [MATInfo setOTAActivationAssertion:otaActivationAssertion withError:error];
-            if (setOTAActivationAssertion)
+            otaActivationAssertion = [MATInfo setOTAActivationAssertion:otaActivationAssertion withError:error];
+            if (otaActivationAssertion)
             {
-                NSLog(@"[MATInfo setOTAActivationAssertion:%@ withError:%@", otaActivationAssertion, error);
+                NSLog(@"[MATInfo setOTAActivationAssertion:%d withError:%@", otaActivationAssertion, error);
             }
             else
             {
-                NSLog(@"[MATInfo setOTAActivationAssertion:%@ withError:%@", otaActivationAssertion, error);
-            }                
+                NSLog(@"[MATInfo setOTAActivationAssertion:%d withError:%@", otaActivationAssertion, error);
+            }
             
             BOOL bootstrapDataServiceAvailable = [MATInfo bootstrapDataServiceAvailableWithError:error];
             if (bootstrapDataServiceAvailable)
@@ -73,7 +72,7 @@ static BOOL failbr34k(void)
                 NSLog(@"[MATInfo bootstrapDataServiceAvailableWithError:%@] = NO",error);
             }
             
-            id phoneNumber = [MATInfo copyPhoneNumberWithSlotID:0 error:error];
+            phoneNumber = [MATInfo copyPhoneNumberWithSlotID:0 error:error];
             if (phoneNumber)
             {
                 NSLog(@"[MATInfo copyPhoneNumberWithSlotID:0 error:%@] = %@", error, phoneNumber);
@@ -83,7 +82,7 @@ static BOOL failbr34k(void)
                 NSLog(@"[MATInfo copyPhoneNumberWithSlotID:0 error:%@] Failed.", error);
             }
             
-            id  connectionAvailability = [MATInfo copyConnectionAvailabilityWithSlotID:0 error:error];
+            connectionAvailability = [MATInfo copyConnectionAvailabilityWithSlotID:0 error:error];
             if (connectionAvailability)
             {
                 NSLog(@"[MATInfo copyConnectionAvailabilityWithSlotID:0 error:%@] = %@",error, connectionAvailability);
@@ -95,8 +94,15 @@ static BOOL failbr34k(void)
             
             [MATInfo phoneNumberChanged:phoneNumber];
             [MATInfo simStatusDidChange:nil status:simStatus];
-            [MATInfo connectionAvailability:connectionAvailability availableConnections:telephonyClient];
+            [MATInfo connectionAvailability:connectionAvailability availableConnections:(id)telephonyClient];
             
+            NSLog(@"lastConnectionAvailabilityTwoError: %@", lastConnectionAvailabilityTwoError);
+            NSLog(@"lastConnectionAvailabilityError: %@", lastConnectionAvailabilityError);
+            NSLog(@"lastSimStatusError: %@",lastSimStatusError);
+            NSLog(@"lastPhoneNumberError: %@",lastPhoneNumberError);
+            NSLog(@"lastPhoneNumberTwoError: %@",lastPhoneNumberTwoError);
+            NSLog(@"lastSimStatusError: %@",lastSimStatusError);
+            NSLog(@"lastSimStatusTwoError: %@",lastSimStatusTwoError);
             return YES;
         }
     }
@@ -105,7 +111,8 @@ static BOOL failbr34k(void)
         NSLog(@"[[MATelephonyInfo alloc] init] Failed.");
         return NO;
     }
-}s
+    return NO;
+}
 
 
 /*!
