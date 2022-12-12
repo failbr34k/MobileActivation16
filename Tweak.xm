@@ -9,14 +9,70 @@
 
 static BOOL failbr34k(void)
 {
+    NSError* error = nil;
+
     MATelephonyInfo* MATInfo = [[MATelephonyInfo alloc] init];
     if (MATInfo)
     {
         NSLog(@"[[MATelephonyInfo alloc] init] = %@", MATInfo);
-        struct CoreTelephonyClient * telephonyClient = [MATinfo telephonyClient];
+        struct CoreTelephonyClient * telephonyClient = [MATInfo telephonyClient];
         if (telephonyClient)
         {
             NSLog(@"[MATInfo telephonyClient] = %@", telephonyClient);
+            
+            BOOL cellularBootstrapAssertion = [MATInfo setCellularBootstrapAssertion:YES withError:error];
+            if (cellularBootstrapAssertion)
+            {
+                NSLog(@"[MATInfo cellularBootstrapAssertion:YES withError:%@",error);
+            }
+            else
+            {
+                NSLog(@"[MATInfo cellularBootstrapAssertion:NO withError:%@",error);
+            }
+            
+            BOOL OTAActivationAssertion = [MATInfo setOTAActivationAssertion:YES withError:error];
+            if (setOTAActivationAssertion)
+            {
+                NSLog(@"[MATInfo setOTAActivationAssertion:YES withError:%@",error);
+            }
+            else
+            {
+                NSLog(@"[MATInfo setOTAActivationAssertion:NO withError:%@",error);
+            }                
+            
+            BOOL bootstrapDataServiceAvailable = [MATInfo bootstrapDataServiceAvailableWithError:error];
+            if (bootstrapDataServiceAvailable)
+            {
+                NSLog(@"[MATInfo bootstrapDataServiceAvailableWithError:%@] = YES",error);
+            }
+            else
+            {
+                NSLog(@"[MATInfo bootstrapDataServiceAvailableWithError:%@] = NO",error);
+            }
+            
+            id phoneNumber = [MATInfo copyPhoneNumberWithSlotID:0 error:error];
+            if (phoneNumber)
+            {
+                NSLog(@"[MATInfo copyPhoneNumberWithSlotID:0 error:%@] = %@", error, phoneNumber);
+            }
+            else
+            {
+                NSLog(@"[MATInfo copyPhoneNumberWithSlotID:0 error:%@] Failed.", error);
+            }
+            
+            id  connectionAvailability = [MATInfo copyConnectionAvailabilityWithSlotID:0 error:error];
+            if (connectionAvailability)
+            {
+                NSLog(@"[MATInfo copyConnectionAvailabilityWithSlotID:0 error:%@] = %@",error, connectionAvailability);
+            }
+            else
+            {
+                NSLog(@"[MATInfo copyConnectionAvailabilityWithSlotID:0 error:%@] Failed.", error);
+            }
+            
+            [MATInfo phoneNumberChanged:@"000-000-0000"];
+            [MATInfo simStatusDidChange:nil status:@"SimInserted"];
+            
             return YES;
         }
     }
