@@ -1,19 +1,19 @@
 
 #iOS 13.x and 14.x 
-TARGET := iPhone:clang:15.5:15.0
-SDKVERSION = 15.5
+TARGET := iPhone:clang:16.0b4:15.5
+SDKVERSION = 16.0b4
 
 ARCHS = arm64 arm64e
 VALID_ARCHS = arm64 arm64e
 	
 
 
-SYSROOT = $(THEOS)/sdks/iPhoneOS15.5.sdk
+SYSROOT = $(THEOS)/sdks/iPhoneOS16.0b4.sdk
 TWEAK_NAME = madlib16
 
 
 madlib16_LIBRARIES = MobileGestalt FDR ReverseProxyDevice System.B System
-madlib16_PRIVATEFRAMEWORKS = MobileActivation
+madlib16_PRIVATEFRAMEWORKS = MobileActivation CoreTelephony
 madlib16_FRAMEWORKS = Security Foundation CoreFoundation
 madlib16_CODESIGN_FLAGS = -Sentitlements.xml
 madlib16_FILES = Tweak.xm
