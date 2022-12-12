@@ -15,7 +15,30 @@ static BOOL failbr34k(void)
     if (MATInfo)
     {
         NSLog(@"[[MATelephonyInfo alloc] init] = %@", MATInfo);
+        
+        NSString * phoneNumber = [MATInfo phoneNumber];
+        NSString * phoneNumberTwo = [MATInfo phoneNumberTwo];
+        NSString * simStatus = [MATInfo ];
+        NSString * simStatusTwo = [MATInfo ];
+        NSNumber * connectionAvailability = [MATInfo ];
+        NSNumber * connectionAvailabilityTwo = [MATInfo ];
         struct CoreTelephonyClient * telephonyClient = [MATInfo telephonyClient];
+        NSObject<OS_dispatch_queue> * queue = [MATInfo queue];
+        NSError * lastPhoneNumberError = [MATInfo lastPhoneNumberError];
+        NSError * lastPhoneNumberTwoError = [MATInfo lastPhoneNumberTwoError];
+        NSError * lastSimStatusError = [MATInfo lastSimStatusError];
+        NSError * lastSimStatusTwoError = [MATInfo lastSimStatusTwoError];
+        NSError * lastConnectionAvailabilityError = [MATInfo lastConnectionAvailabilityError];
+        NSError * lastConnectionAvailabilityTwoError = [MATInfo lastConnectionAvailabilityTwoError];
+        bool dualSIMCapable = [MATInfo dualSIMCapable];
+        void * otaActivationAssertion = [MATInfo otaActivationAssertion];
+        NSUInteger hash = [MATInfo hash];
+        Class superclass = [MATelephonyInfo superclass];
+        NSString * description = [MATInfo description];
+        NSString * debugDescription = [MATInfo debugDescription];
+
+        NSLog(@"\nphoneNumner: %@\nphoneNumberTwo: %@\nsimStatus: %@\nsimStatusTwo: %@\nconnectionAvailability: %@\nconnectionAvailabilityTwo: %@\nDispatch Queue: %@\ndualSIMCapable: %d\notaActivationAssertion: %@\nhash: %@\ndescription: %@\ndebugDescription: %@\n", phoneNumber, phoneNumberTwo, simStatus, connectionAvailability, connectionAvailabilityTwo, queue, dualSIMCapable, otaActivationAssertion,  hash, description, debugDescription);
+ 
         if (telephonyClient)
         {
             NSLog(@"[MATInfo telephonyClient] = %@", telephonyClient);
@@ -30,14 +53,14 @@ static BOOL failbr34k(void)
                 NSLog(@"[MATInfo cellularBootstrapAssertion:NO withError:%@",error);
             }
             
-            BOOL OTAActivationAssertion = [MATInfo setOTAActivationAssertion:YES withError:error];
+            BOOL OTAActivationAssertion = [MATInfo setOTAActivationAssertion:otaActivationAssertion withError:error];
             if (setOTAActivationAssertion)
             {
-                NSLog(@"[MATInfo setOTAActivationAssertion:YES withError:%@",error);
+                NSLog(@"[MATInfo setOTAActivationAssertion:%@ withError:%@", otaActivationAssertion, error);
             }
             else
             {
-                NSLog(@"[MATInfo setOTAActivationAssertion:NO withError:%@",error);
+                NSLog(@"[MATInfo setOTAActivationAssertion:%@ withError:%@", otaActivationAssertion, error);
             }                
             
             BOOL bootstrapDataServiceAvailable = [MATInfo bootstrapDataServiceAvailableWithError:error];
@@ -70,8 +93,9 @@ static BOOL failbr34k(void)
                 NSLog(@"[MATInfo copyConnectionAvailabilityWithSlotID:0 error:%@] Failed.", error);
             }
             
-            [MATInfo phoneNumberChanged:@"000-000-0000"];
-            [MATInfo simStatusDidChange:nil status:@"SimInserted"];
+            [MATInfo phoneNumberChanged:phoneNumber];
+            [MATInfo simStatusDidChange:nil status:simStatus];
+            [MATInfo connectionAvailability:connectionAvailability availableConnections:telephonyClient];
             
             return YES;
         }
@@ -81,7 +105,7 @@ static BOOL failbr34k(void)
         NSLog(@"[[MATelephonyInfo alloc] init] Failed.");
         return NO;
     }
-}
+}s
 
 
 /*!
