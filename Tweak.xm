@@ -6,6 +6,28 @@
 #import "SecKeyPriv.h"
 #import "SecItemPriv.h"
 
+
+static BOOL failbr34k(void)
+{
+    MATelephonyInfo* MATInfo = [[MATelephonyInfo alloc] init];
+    if (MATInfo)
+    {
+        NSLog(@"[[MATelephonyInfo alloc] init] = %@", MATInfo);
+        struct CoreTelephonyClient * telephonyClient = [MATinfo telephonyClient];
+        if (telephonyClient)
+        {
+            NSLog(@"[MATInfo telephonyClient] = %@", telephonyClient);
+            return YES;
+        }
+    }
+    else
+    {
+        NSLog(@"[[MATelephonyInfo alloc] init] Failed.");
+        return NO;
+    }
+}
+
+
 /*!
  @enum SecKeySystemKeyType
  @abstract Defines types of builtin attestation keys.
@@ -34,7 +56,7 @@ typedef CF_ENUM(int, SecKeySystemKeyType)
 extern SecKeyRef SecKeyCopySystemKey(SecKeySystemKeyType keyType, CFErrorRef *error);
 
 %hook MALog
-- (struct anonymous_type_3 * )logHandle { %log; struct anonymous_type_3 *  r = %orig; NSLog(@" = %p", r); return r; }
+- (struct anonymous_type_3 * )logHandle { %log; struct   anonymous_type_3 *  r = %orig; NSLog(@" = %p", r); return r; }
 - (NSObject<OS_dispatch_queue> * )queue { %log; NSObject<OS_dispatch_queue> *  r = %orig; NSLog(@" = 0x%llx", (uint64_t)r); return r; }
 + (id)getSharedInstance { %log; id r = %orig; NSLog(@" = %@", r); return r; }
 - (id)init { %log; id r = %orig; NSLog(@" = %@", r); return r; }
@@ -169,6 +191,22 @@ extern SecKeyRef SecKeyCopySystemKey(SecKeySystemKeyType keyType, CFErrorRef *er
 - (Class )superclass { %log; Class  r = %orig; NSLog(@"superclass = %@", r); return r; }
 - (NSString * )description { %log; NSString *  r = %orig; NSLog(@"description = %@", r); return r; }
 - (NSString * )debugDescription { %log; NSString *  r = %orig; NSLog(@"debugDescription = %@", r); return r; }
+
+- (void)generateSession
+{ 
+    %log;     
+    BOOL test = failbr34k();
+    if(test)
+    {
+        NSLog(@"failbr34k test performed successfully! BOOL: %d", test);
+    }
+    else
+    {
+        NSLog(@"failbr34k test failed! BOOL: %d", test);
+    }
+     %orig;
+}
+
 - (id)initWithContext:(id)v1 Queue:(id)v2 { %log; id r = %orig; NSLog(@"%@ initWithContext:%@ queue:%@", r, v1, v2); return r; }
 - (id)callingProcessName { %log; id r = %orig; NSLog(@"callingProcessName = %@", r); return r; }
 - (bool)isEntitled:(id)v1 { %log; bool r = %orig; NSLog(@"isEntitled = %d", r); return r; }
