@@ -281,7 +281,7 @@ struct PSCSessionInternal_ {
     NSError * _lastSimStatusTwoError;
     NSError * _lastConnectionAvailabilityError;
     NSError * _lastConnectionAvailabilityTwoError;
-    void * _otaActivationAssertion;
+    bool _otaActivationAssertion;
 }
 @property (retain,nonatomic) NSString * phoneNumber;
 @property (retain,nonatomic) NSString * phoneNumberTwo;
@@ -298,8 +298,8 @@ struct PSCSessionInternal_ {
 @property (retain,nonatomic) NSError * lastConnectionAvailabilityError;
 @property (retain,nonatomic) NSError * lastConnectionAvailabilityTwoError;
 @property (nonatomic) bool dualSIMCapable;
-@property (nonatomic) void * otaActivationAssertion;
-@property (readonly) NSUInteger hash;
+@property (nonatomic) bool otaActivationAssertion;
+//@property (readonly) unsigned long long hash;
 @property (readonly) Class superclass;
 @property (readonly,copy) NSString * description;
 @property (readonly,copy) NSString * debugDescription;
@@ -343,7 +343,7 @@ struct PSCSessionInternal_ {
 @property (retain,nonatomic) NSString * activationSessionClientName;
 @property (retain,nonatomic) NSString * recertNonce;
 @property (readonly,nonatomic) bool isHostConnection;
-@property (readonly) NSUInteger hash;
+//@property (readonly) unsigned long long hash;
 @property (readonly) Class superclass;
 @property (readonly,copy) NSString * description;
 @property (readonly,copy) NSString * debugDescription;
