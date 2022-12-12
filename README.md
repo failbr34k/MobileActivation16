@@ -19,7 +19,7 @@ Notes:  There are new protocols and some of the Daemon class functions have chan
         
         The return is YES if successful and NO if failed.
         
-        I have placed it in Gestalt Helper's copyAnswer 
+        I have placed it in generateSession. 
         since its guaranteed to get called and early on at that.
         
         You can modify this template to probe the new class.
